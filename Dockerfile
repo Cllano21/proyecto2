@@ -1,13 +1,19 @@
-# Usa una imagen oficial de Python
-FROM python:3.9-slim
+# Usa una imagen oficial de Python con una versión específica
+FROM python:3.11-slim
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
+# Instala las dependencias del sistema necesarias
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copia los archivos de requisitos
 COPY requirements.txt .
 
-# Instala las dependencias
+# Instala las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia el resto de los archivos de la aplicación
